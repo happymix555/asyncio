@@ -1,0 +1,109 @@
+- IO operation that take long time to run can create bad effect of overall performance of 
+  an application 
+
+- AsyncIO is used to handle this scenario to help the application continue to run
+  while performing IO operation, this help improve responsiveness of the application
+
+- AsyncIO used only 1 thread to concurrently run application and preforming IO operation
+  simultaneously
+
+- AsyncIO run multiple IO task at the same time, so this help us reduce the overall time
+  used to get or put something to the database
+
+- CPU bound task --> task that need CPU to run, ex. loop, calculate value of pi, perform math operation
+
+- IO bound task --> IO operation task that NOT need CPU to run, ex. query data from database, request web page from web server
+
+- concurrent --> do other task while waiting for something else
+                 NOTE that this will only perform only ONE task at a time
+                 but if that task is IO task and take sometime to process
+                 we will switch to other task instead of just waiting
+            
+- parallelism --> do multiple task at the SAME TIME
+
+- multitasking |--> preemptive multitasking
+               |
+               |--> cooperative multitasking
+
+- preemptive multitasking --> - OS decided when to switch between task 
+                              - OS use method called 'time slicing' to decide when to switch task
+                              - when OS switch task, this action is called 'preempting'
+                              - the downside is switching criteria is based on TIME 
+                                    - if out app is doing something important, OS should switch to do other task
+                              - in python, python Interpreter handle this switching mechanism
+
+-    cooperative multitasking ----> - we decided by ourself when to switch between task
+  ( non-preemptive multitasking )   - this is good because
+                                    - we know exactly when we should switch the task or when we should keep doing that task
+                                    - switching criteria is based on the actual LOGIC of the program not the time like preemptive multitasking
+
+
+- process --> - app that has it own space in memory
+              - other app can NOT access this memory
+
+- thread --> - similar to a process
+             - process create thread
+             - type of thread:
+                - main thread
+                - worker thread
+                - background thread
+
+- GIL ( Global Interpreter Lock )
+    - this will limit the power of multithreading but with some good reason
+    - in threading, one thread have to share memory with other thread
+    - if this two thread update the same variable at the same time
+        - houston, we have problem here.
+    - so GIL come into play to prevent this issue
+    - GIL will allow only one bytecode to run at a time
+    - this will prevent two thread to perform something on the same variable at the same time
+
+- in AsyncIO we have event loop to perform task concurrently with only 1 thread:
+    - steps of how this event loop work:
+        - we have multiple task to do, this can be a combination of CPU and IO bound task
+        - we add this tasks to queue
+        - we execute task in queue one by one
+        - if we found IO task
+            - we pass it to system to handle IO operation
+            - we then resume to do other task in queue
+        - if the IO operation was done
+            - system will notify us
+            - we then perform CPU bound associate with this IO task
+        - we continue to perform task in queue again
+    
+- coroutine function --> function with super power --> power that can be pause
+    - we define coroutine function with 'async' key word
+    - we can run this coroutine function until we met with IO operation
+    - we then pause this function to do other function
+    - when the IO operation was done, we then resume to this coroutine function
+
+=======================================================================================================================================
+
+- concept of AsyncIO
+    - main components:
+        - event loop --> loop that run forever to keep checking for task to do
+        - coroutine function --> function that can be paused
+        - task --> coroutine function that is schedule to run ASAP
+    - action concept:
+        - yield --> change control right from out initial code sequence to event loop
+    - 
+
+- asyncio.run() --> use this to run coroutine function that we have created
+
+- 'async' is used to created coroutine function
+- 'await' is used to tell our code to pause our code until coroutine function is finished
+
+- example code to show how to use 'async' and 'await' is in 'async_await_example.py'
+
+=======================================================================================================================================
+
+- 'asyncio.create_task()' is used to schedule a coroutine function to run ASAP
+
+- example code to show how to use 'asyncio.create_task' is in 'create_task_asyncio_example.py'
+
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Keyword:
+    - gather ( with await )
+    - as completed ( with await )
+    - future in event loop
+    - yield control to event loop
