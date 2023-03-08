@@ -1,0 +1,92 @@
+- database server --> store data for our application
+
+- web server --> serve web to user via browser
+
+- web server talk to database to store/retrieve data for application
+
+- YnxERP2 --> replace OpenERP
+
+- web app --> UI for user to communicate with database
+    - in the end of the day, we just need to store/retrieve data from database
+    - web app UI help make out live easier
+
+- the basic form of database is spreadsheet
+    - but this is hard to user
+    - so we build ERP system to help make life easier
+
+- SQL database help us store data in out ERP
+
+- OOP is heavily related with database
+    - we see data in form of object like we would see in OOP programming
+
+- structure of OpenERP
+    DB <--> action server <--> web server <--> browser
+    - the problem is too many layer
+        - if we want to change something we need to change it at multiple places
+
+- structure of YnxERP2
+    CreativeDB server <--> application( YnxERP2 app )
+    - CreativeDB server only store data
+    - application( YnxERP2 app ) have all the business logic 
+
+- each data in CreativeDB is called 'assertion'
+
+- we can have multiple assertion about the same thing
+- but application will be decided which data is correct and will be used
+
+- uuid == universal unique id, fucking unique 
+
+- assertion --> store all the data, NOT replace anything, just update and update 
+
+- assertion --> someone put data to database 
+    ( things start with # is the information user need to provide )
+    - #C -- W -- #E -- #A -- T -- I -- #V -- O
+    # CONTEXT --> which context does this assertion is in
+    - WHO --> who put data to database
+    # ENTITY --> entity of something we want to assert
+    # ATTRIBUTE --> just attr of this assertion, this can be action, data, etc...
+                    application need to workout how to deal with this attribute
+                    example is: if this attribute is action, application need to 
+                    know what this action do and do it to perform task.
+                    
+    - TIMESTAMP --> time of this assertion being pushed
+    - ID --> id
+    # VALUE --> value of this assertion
+    - ORIGIN --> which server we put this assertion ( we have multiple server to host CreativeDB )
+
+    example of assertion:
+        - we need to store data about the new employee:
+            - ping add new employee name 'mix' and age '23' at 1700 from origin1
+            - this action will create 2 assertion, one for storing name another one for storing age
+            
+            # CONTEXT --> employee
+            - WHO --> ping
+            # ENTITY --> we use uuid to declare this entity for 'mix'
+            # ATTRIBUTE --> name
+            - TIMESTAMP --> 1700
+            - ID --> database manage this by itself
+            # VALUE --> mix
+            - ORIGIN --> origin1
+
+            # CONTEXT --> employee
+            - WHO --> ping
+            # ENTITY --> we use uuid to declare this entity for 'mix'
+            # ATTRIBUTE --> age
+            - TIMESTAMP --> 1700
+            - ID --> database manage this by itself
+            # VALUE --> 23
+            - ORIGIN --> origin1
+
+- CreativeDB is just a backup database
+    - application have their local database for ease of use
+    - assertion is hard to use with application
+    - so it will be used only to store backup data
+
+- in CreativeDB everything have its own UUID even if table name
+
+- local database in application is SQL
+
+- we start application --> retrieve data from CreativeDB --> transform it into SQL
+    --> then application use this SQL to do their job
+
+- 
