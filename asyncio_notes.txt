@@ -82,10 +82,13 @@
     - main components:
         - event loop --> loop that run forever to keep checking for task to do
         - coroutine function --> function that can be paused
-        - task --> coroutine function that is schedule to run ASAP
+        - task --> coroutine function that is scheduled to run, this coroutine function will wait in event loop
     - action concept:
         - yield --> change control right from out initial code sequence to event loop
-    - 
+    ? if our program encounter an 'await' keyword ( assume at the line 'xx' ): 
+        - it will look at the queue of event loop to perform task in event loop 
+        - when no task was found in event loop:
+            - our program will continue to execute below the line of the first 'await' keyword found( at the line 'xx' )
 
 - asyncio.run() --> use this to run coroutine function that we have created
 

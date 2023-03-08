@@ -2,67 +2,39 @@ import asyncio
 import time
 
 '''
-asyncio.create_task
+this program demonstrate how 'await' keyword change the running sequence of our program
+from normal( line after line ) into event loop queue
 
-asyncio.create_task is used when we want to run coroutine function concurrently while waiting for 
-another long running IO task.
-
-asyncio.create_task will return the task object.
-
-we use task object with await keyword to indicate where in the code should really wait for the result 
-of the long running task before moving on for another task.
-
-the below code demonstrate on how to use asyncio.create_task() function
 '''
 
-# create coroutine function to simulate long process with asyncio.sleep
+# create coroutine function 
 async def myPrint( numToPrintInt: int ):
-    # print to inform user that we are in this specific myPrint function
-    print( 'We are currently in myPrint number {}'.format( numToPrintInt ) )
-    # sleep for 3 second to simulate a long running process
-    await asyncio.sleep( 3 )
-    # print to inform that this long process is completed
-    print( 'myPrint number {} is done!'.format( numToPrintInt ) )
+    # print to inform that we are in myPrint function
+    print( 'We are current in myPrint: {}'.format( numToPrintInt ) )
+    # # sleep for 3 seconds to simulate long running process
+    # await asyncio.sleep( 3 )
+    # # print to inform that the long running process of this coroutine function is done
+    # print( 'long running process of myPrint: {} is done'.format( numToPrintInt ) )
 
-# create coroutine function that call another coroutine function 
-# this will demonstrate the 
+# create coroutine function that have asyncio.crate_task() inside of it
+async def myPrintAndAddTask( numToPrintInt: int ):
+    # print to inform that we are in myPrintAndAddTask function
+    print( 'We are current in myPrintAndAddTask: {}'.format( numToPrintInt ) )
+    # add task( myPrint ) to event loop using asyncio.create_task()
+    myPrintResult = asyncio.create_task( myPrint( numToPrintInt ) )
+    # print to inform that we have finished adding task to event loop
+    print( 'Task with number: {} added to event loop via myPrintAndAddTask function' )
 
-# create main function to host all coroutine function
-# this will be used as an entry point for our event loop
+# create main function to host all of out coroutine 
 async def main():
-    # create timer, startTime to keep time used in this program
-    startTime = time.time()
-
     # print to inform that we are in main function
-    print( 'Starting main function' )
-    # call myPrint function with number 1 to simulate the first long running process
-    firstLongRunningTask = asyncio.create_task( myPrint( 1 ) )
-    # call myPrint function with number 2 to simulate the second long running process
-    secondLongRunningTask = asyncio.create_task( myPrint( 2 ) )
-    # call myPrint function with number 3 to simulate the third long running process
-    thirdLongRunningTask = asyncio.create_task( myPrint( 3 ) )
+    print( 'We are in main function' )
+    # add the first myPrintAndAddTask task to event loop
+    firstMyPrintAndAddTask = asyncio.create_task( myPrintAndAddTask( 1 ) )
+    # add the second myPrintAndAddTask task to event loop
+    secondMyPrintAndAddTask = asyncio.create_task( myPrintAndAddTask( 2 ) )
 
-    # use await to change from running code sequentially to run the code in event loop first
-    await asyncio.sleep( 1 )
-
-    # print to inform that we have already start the long running process in the background
-    # at this point we can perform other task concurrently while waiting for the long running
-    # task to be done
-    print( 'We are already start the long running process concurrently! with this print statement' )
-
-    # at this point of code we are really want to wait for the result of 
-    # the long running task before moving on to do other task
-    await firstLongRunningTask
-    await secondLongRunningTask
-    await thirdLongRunningTask
-
-    # print to inform that all of the long running process we want to wait for are done
-    # so we doing other task in queue
-    print( 'The long running IO processes were done, and we are doing other task in queue.' )
-
-    # print time we spent for running the program
-    print( 'This program took {}s to run'.format( time.time() - startTime ) )
-
-# create an entry point to our event loop and run the program
-asyncio.run( main() )
+    # begin to use 'await' keyword
+    # our program will run line by line until this task
+    # then it will switch to execute 
 
