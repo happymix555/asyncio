@@ -112,6 +112,8 @@
 
 - AsyncIO example with web socket
 
+- socket is used to send message across network
+
 - think of socket in term of a mailbox
     - we sent mail to the recipients via a mail box
     - then the mail is delivered to the recipients
