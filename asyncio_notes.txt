@@ -92,12 +92,13 @@
             - our program will wait until every 'await' function is complete
         - if we have multiple 'await' waiting for the process
             - the coroutine function associate with the 'await' that is finished first
-              will be call to continue do something first, regardless of the order in the queue.
+              will be call to continue to do something first, regardless of the order in the queue.
 
-- asyncio.run() --> use this to run coroutine function that we have created
+- asyncio.run() --> use this to run coroutine function that we have created, this is the same as 'await'
 
 - 'async' is used to created coroutine function
-- 'await' is used to tell our code to pause our code until coroutine function is finished
+- 'await' is used to tell our code to pause at this line and do something else( in queue ) while waiting for 
+   this process to finish.
 
 - example code to show how to use 'async' and 'await' is in 'async_await_example.py'
 
