@@ -1,0 +1,49 @@
+<mxfile host="65bd71144e">
+    <diagram id="LuXPVWbHd80iHnKBVaPR" name="Page-1">
+        <mxGraphModel dx="1048" dy="713" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="create serverSocket" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="110" y="70" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="await listenForConnection" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="110" y="180" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="await sock_accept&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="110" y="310" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="create 'echo' task to event loop" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="110" y="430" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="waiting here until we get connection" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="250" y="317.5" width="110" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Event loop" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="410" y="290" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="nothing in event loop at this stage" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="410" y="320" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="Event loop" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="410" y="415" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="echo task" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="410" y="445" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="await sock_accept&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="110" y="560" width="120" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="waiting here until we get connection&lt;br&gt;and perform task in an event loop while waiting" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="250" y="560" width="140" height="82.5" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="Event loop" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+                    <mxGeometry x="410" y="552.5" width="60" height="30" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="echo task" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+                    <mxGeometry x="410" y="582.5" width="120" height="60" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

@@ -45,7 +45,7 @@ async def main():
     # print to inform that we have already start the long running process in the background
     # at this point we can perform other task concurrently while waiting for the long running
     # task to be done
-    print( 'We are already start the long running process concurrently! with this print statement' )
+    print( 'We are already start the long running process concurrently with this print statement' )
 
     # at this point of code we are really want to wait for the result of 
     # the long running task before moving on to do other task

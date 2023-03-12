@@ -121,6 +121,14 @@
         - if the recipients want to send something back to us
         - they will use their mail box to send mail to us
 
+- TCP = Transmission Transfer Protocol
+    - pros:
+        - resend the message in case of network loss
+        - ensure that recipients receive message in the same order the sender send it
+
+-  
+
+
 - the example will be at 'asyncio_with_web_socket_example.py'
 
 
