@@ -15,84 +15,84 @@
 - IO bound task --> IO operation task that NOT need CPU to run, ex. query data from database, request web page from web server
 
 - concurrent --> do other task while waiting for something else
-                 NOTE that this will only perform only ONE task at a time
-                 but if that task is IO task and take sometime to process
-                 we will switch to other task instead of just waiting
-            
+				 NOTE that this will only perform only ONE task at a time
+				 but if that task is IO task and take sometime to process
+				 we will switch to other task instead of just waiting
+			
 - parallelism --> do multiple task at the SAME TIME
 
 - multitasking |--> preemptive multitasking
-               |
-               |--> cooperative multitasking
+			   |
+			   |--> cooperative multitasking
 
 - preemptive multitasking --> - OS decided when to switch between task 
-                              - OS use method called 'time slicing' to decide when to switch task
-                              - when OS switch task, this action is called 'preempting'
-                              - the downside is switching criteria is based on TIME 
-                                    - if out app is doing something important, OS should switch to do other task
-                              - in python, python Interpreter handle this switching mechanism
+							  - OS use method called 'time slicing' to decide when to switch task
+							  - when OS switch task, this action is called 'preempting'
+							  - the downside is switching criteria is based on TIME 
+									- if out app is doing something important, OS should NOT switch to do other task
+							  - in python, python Interpreter handle this switching mechanism
 
--    cooperative multitasking ----> - we decided by ourself when to switch between task
+- cooperative multitasking ----> - we decided by ourself when to switch between task
   ( non-preemptive multitasking )   - this is good because
-                                    - we know exactly when we should switch the task or when we should keep doing that task
-                                    - switching criteria is based on the actual LOGIC of the program not the time like preemptive multitasking
+									- we know exactly when we should switch the task or when we should keep doing that task
+									- switching criteria is based on the actual LOGIC of the program not the time like preemptive multitasking
 
 
 - process --> - app that has it own space in memory
-              - other app can NOT access this memory
+			  - other app can NOT access this memory
 
 - thread --> - similar to a process
-             - process create thread
-             - type of thread:
-                - main thread
-                - worker thread
-                - background thread
+			 - process create thread
+			 - type of thread:
+				- main thread
+				- worker thread
+				- background thread
 
 - GIL ( Global Interpreter Lock )
-    - this will limit the power of multithreading but with some good reason
-    - in threading, one thread have to share memory with other thread
-    - if this two thread update the same variable at the same time
-        - houston, we have problem here.
-    - so GIL come into play to prevent this issue
-    - GIL will allow only one bytecode to run at a time
-    - this will prevent two thread to perform something on the same variable at the same time
+	- this will limit the power of multithreading but with some good reason
+	- in threading, one thread have to share memory with other thread
+	- if this two thread update the same variable at the same time
+		- houston, we have problem here.
+	- so GIL come into play to prevent this issue
+	- GIL will allow only one bytecode to run at a time
+	- this will prevent two thread to perform something on the same variable at the same time
 
 - in AsyncIO we have event loop to perform task concurrently with only 1 thread:
-    - steps of how this event loop work:
-        - we have multiple task to do, this can be a combination of CPU and IO bound task
-        - we add this tasks to queue
-        - we execute task in queue one by one
-        - if we found IO task
-            - we pass it to system to handle IO operation
-            - we then resume to do other task in queue
-        - if the IO operation was done
-            - system will notify us
-            - we then perform CPU bound associate with this IO task
-        - we continue to perform task in queue again
-    
+	- steps of how this event loop work:
+		- we have multiple task to do, this can be a combination of CPU and IO bound task
+		- we add this tasks to queue
+		- we execute task in queue one by one
+		- if we found IO task
+			- we pass it to system to handle IO operation
+			- we then resume to do other task in queue
+		- if the IO operation was done
+			- system will notify us
+			- we then perform CPU bound associate with this IO task
+		- we continue to perform task in queue again
+	
 - coroutine --> function with super power --> power that can be pause
-    - we define coroutine function with 'async' key word
-    - we can run this coroutine function until we met with IO operation
-    - we then pause this function to do other function
-    - when the IO operation was done, we then resume to this coroutine function
+	- we define coroutine function with 'async' key word
+	- we can run this coroutine function until we met with IO operation
+	- we then pause this function to do other function
+	- when the IO operation was done, we then resume to this coroutine function
 
 =======================================================================================================================================
 
 - concept of AsyncIO
-    - main components:
-        - event loop --> loop that run forever to keep checking for task to do
-        - coroutine function --> function that can be paused
-        - task --> coroutine function that is scheduled to run, this coroutine function will wait in event loop
-    - technical term concept:
-        - yield --> change control right from out initial code sequence to event loop
-    - working concept of event loop of asyncio
-        - every time we encounter 'await' keyword
-            - we will perform  task in an event loop queue
-        - if we have no task left in an event loop queue
-            - our program will wait until every 'await' function is complete
-        - if we have multiple 'await' waiting for the process
-            - the coroutine function associate with the 'await' that is finished first
-              will be call to continue to do something first, regardless of the order in the queue.
+	- main components:
+		- event loop --> loop that run forever to keep checking for task to do
+		- coroutine function --> function that can be paused
+		- task --> coroutine function that is scheduled to run, this coroutine function will wait in event loop
+	- technical term concept:
+		- yield --> change control right from out initial code sequence to event loop
+	- working concept of event loop of asyncio
+		- every time we encounter 'await' keyword
+			- we will perform  task in an event loop queue
+		- if we have no task left in an event loop queue
+			- our program will wait until every 'await' function is complete
+		- if we have multiple 'await' waiting for the process
+			- the coroutine function associate with the 'await' that is finished first
+			  will be call to continue to do something first, regardless of the order in the queue.
 
 - asyncio.run() --> use this to run coroutine function that we have created, this is the same as 'await'
 
@@ -115,16 +115,16 @@
 - socket is used to send message across network
 
 - think of socket in term of a mailbox
-    - we sent mail to the recipients via a mail box
-    - then the mail is delivered to the recipients
-    - the recipients can read out   
-        - if the recipients want to send something back to us
-        - they will use their mail box to send mail to us
+	- we sent mail to the recipients via a mail box
+	- then the mail is delivered to the recipients
+	- the recipients can read out   
+		- if the recipients want to send something back to us
+		- they will use their mail box to send mail to us
 
 - TCP = Transmission Transfer Protocol
-    - pros:
-        - resend the message in case of network loss
-        - ensure that recipients receive message in the same order the sender send it
+	- pros:
+		- resend the message in case of network loss
+		- ensure that recipients receive message in the same order the sender send it
 
 -  
 
@@ -134,7 +134,7 @@
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 Keyword:
-    - gather ( with await )
-    - as completed ( with await )
-    - future in event loop
-    - yield control to event loop
+	- gather ( with await )
+	- as completed ( with await )
+	- future in event loop
+	- yield control to event loop
