@@ -53,7 +53,7 @@ async def foreverLoopCoroutineWithErrorAndExceptionCatch():
             - try, except statement to catch an error
     '''
 
-    # create forever loo
+    # create forever loop
     while True:
 
         # inform user we are in loop

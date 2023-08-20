@@ -84,7 +84,7 @@
 		- coroutine function --> function that can be paused
 		- task --> coroutine function that is scheduled to run, this coroutine function will wait in event loop
 	- technical term concept:
-		- yield --> change control right from out initial code sequence to event loop
+		- yield --> change control right from our initial code sequence to event loop
 	- working concept of event loop of asyncio
 		- every time we encounter 'await' keyword
 			- we will perform  task in an event loop queue
