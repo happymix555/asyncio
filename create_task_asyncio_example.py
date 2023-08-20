@@ -53,12 +53,6 @@ async def main():
 	# at this point we can perform other task concurrently while waiting for the long running
 	# task to be done
 	print( 'We are already start the long running process concurrently with this print statement' )
-
-	# # print something every 0.5 seconds to indicate that we can do something else
-	# # while performing long running I/O task 
-	# for counter in range( 10 ):
-	# 	print( 'We are doing something else while long running I/O process is running...' )
-	# 	time.sleep( 0.5 )
  
 	# at this point of code we are really want to wait for the result of 
 	# the long running task before moving on to do other task

@@ -123,6 +123,7 @@ except RuntimeError:
 	# if event loop dose not exist
 	print( 'Before main function, Event loop dose not exist' + '\n' )
 
+########################################################################################################################################################################################################
 # # create event loop
 # eventLoop = asyncio.new_event_loop()
 
@@ -143,6 +144,7 @@ except RuntimeError:
 	
 # 	# event loop has finished then close it
 # 	eventLoop.close()
+########################################################################################################################################################################################################
 
 asyncio.run( main() )
 
@@ -152,7 +154,7 @@ try:
 	getAndPrintAllTask( 'After running main function' )
 except RuntimeError:
 
-	# if event loop dose not exist
+	# if event loop dose NOT exist
 	print( 'After main function, Event loop dose not exist' + '\n' )
 
 print( 'Time used for the whole program was: {}s'.format( time.time() - programStartTime ) )
