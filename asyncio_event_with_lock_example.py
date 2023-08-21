@@ -6,6 +6,12 @@
 		at the same time. As this can create race condition and corrupted data.
 	
 	In this script we're going to USE lock to simulate the CORRECT order of execution of our program
+
+	The desired behavior is:
+		- the longer long running task access the shared variable first
+		- the longer long running task update shared variable to be 1
+		- then the shorter long running task access the same shared variable 
+		- the shorter long running task update shared variable to be 2
 '''
 
 import asyncio
