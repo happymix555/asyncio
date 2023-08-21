@@ -1,9 +1,11 @@
-''' This program is used to demonstrate how to work with Asyncio's Event nad lock
+''' This program is used to demonstrate how to work with Asyncio's Event and lock
 
 	Event is used to tell asyncio's task that something has happened.
 
 	Lock is used to prevent multiple task to access the same resource ( eg. variable )
 		at the same time. As this can create race condition and corrupted data.
+	
+	In this script we're going to USE lock to simulate the CORRECT order of execution of our program
 '''
 
 import asyncio
@@ -70,6 +72,9 @@ async def main():
 
 	# create and schedule the shorter long running task to run
 	shorterTask = asyncio.create_task( coroutineWithDynamicTimeOfLongRunningProcess( event, lock, 2 ) )
+
+	# simulate another long running process before trigger the event
+	await asyncio.sleep( 5 )
 
 	# now long running process was done
 	# trigger event to tell all tasks that something has happened
