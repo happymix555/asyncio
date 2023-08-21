@@ -10,110 +10,46 @@ import asyncio
 
 sharedResourceInt = 0
 
-# create coroutine
-# this coroutine is going to wait for some event to occur
-# then performing something with lock
-async def coroutineWithEventAndLock( event, lock, coroutineNameInt ):
-	''' This coroutine is going to wait for some event to happened
-			before it perform something else
-
-		After got signal from event, this coroutine is going to
-			access shared resource and increase its value by 1
-
-		ARG: 
-			event ( asyncio.Event() object )
-	'''
-
-	global sharedResourceInt
-
-	print( 'Coroutine {} is waiting for event to happened'.format( coroutineNameInt ) )
-
-	# waiting for event to happened
-	await event.wait()
-
-	print( 'Coroutine {} knows that something has happened'.format( coroutineNameInt ) )
-
-	# wait for lock to available then access the shared resource
-	async with lock:
-
-		# access and update the shared resource
-		sharedResourceInt += 1
-
-	print( 'Coroutine {} performing work and update the shared resource to {}'.format( coroutineNameInt, sharedResourceInt ) )
-
-# create coroutine
-# this coroutine is going to wait for some event to occur
-# then performing something but WITHOUT lock
-async def coroutineWithEventButNotLock( event, coroutineNameInt ):
-	''' This coroutine is going to wait for some event to happened
-			before it perform something else
-
-		After got signal from event, this coroutine is going to
-			access shared resource and increase its value by 1
-			but this time its is going to simultaneously access the shared resource
-			with another coroutine because the 'lock' was not implemented
-
-		ARG: 
-			event ( asyncio.Event() object )
-	'''
-
-	global sharedResourceInt
-
-	print( 'Coroutine {} is waiting for event to happened'.format( coroutineNameInt ) )
-
-	# waiting for event to happened
-	await event.wait()
-
-	print( 'Coroutine {} knows that something has happened'.format( coroutineNameInt ) )
-
-	# access and update the shared resource
-	sharedResourceInt += 1
-
-	print( 'Coroutine {} performing work and update the shared resource to {}'.format( coroutineNameInt, sharedResourceInt ) )
-
-async def longerCoroutineWithEventAndLock( event, lock ):
-	''' This coroutine is going to simulate the longer long running process
-		and the access the shared variable and increase its value by 1
+async def coroutineWithDynamicTimeOfLongRunningProcess( event, lock, longRunningProcessTimeInt ):
+	''' This function is used to create a coroutine with variable 
+			long running process simulation time
 
 		ARGS:
 			event ( asyncio.Event() object )
 			lock ( asyncio.Lock() object )
+			longRunningProcessTimeInt ( int ), used to specify the long running process simulation time
 	'''
 
 	# global variable
 	global sharedResourceInt
 
 	# inform
-	print( 'Longer coroutine is waiting for event' )
+	print( 'Coroutine {} is waiting for event'.format( longRunningProcessTimeInt ) )
 
 	# wait for event ( wait for something to happened )
 	await event.wait()
 
 	# inform 
-	print( 'Longer coroutine got signal from event that something has happened' )
+	print( 'Coroutine {} got signal from event that something has happened'.format( longRunningProcessTimeInt ) )
 
 	# use lock to hold control over shared resource
 	async with lock:
 
 		# inform 
-		print( 'Longer coroutine is holding control over the shared resource' )
-		print( 'Longer coroutine is waiting for the long running process to be done' )
+		print( 'Coroutine {} is holding control over the shared resource'.format( longRunningProcessTimeInt ) )
+		print( 'Coroutine {} is waiting for the long running process to be done'.format( longRunningProcessTimeInt ) )
 
 		# simulate the long running process 
-		await asyncio.sleep( 5 )
+		await asyncio.sleep( longRunningProcessTimeInt )
 
 		# inform
-		print( 'Longer coroutine is done performing the long running process' )
+		print( 'Coroutine {} is done performing the long running process'.format( longRunningProcessTimeInt ) )
 
 		# access and update the shared resource 
 		sharedResourceInt += 1
 
 		# inform 
-		print( 'Longer coroutine update shared resource and produce {}'.format( sharedResourceInt ) )
-
-
-# asyncio task storage 
-taskStorageList = list()
+		print( 'Coroutine {} update shared resource and produce {}'.format( longRunningProcessTimeInt, sharedResourceInt ) )
 
 # main coroutine
 # this is an entry point into asyncio's eventloop
@@ -129,35 +65,18 @@ async def main():
 	# create asyncio lock
 	lock = asyncio.Lock()
 
-	# loop 5 times
-	for taskNameInt in range( 1, 6 ):
+	# create and schedule the longer long running task to run
+	longerTask = asyncio.create_task( coroutineWithDynamicTimeOfLongRunningProcess( event, lock, 4 ) )
 
-		# # create task and store it
-		# taskStorageList.append( 
-		# 	asyncio.create_task( 
-		# 		coroutineWithEventAndLock( event, lock, taskNameInt ),
-		# 		name='task_{}'.format( taskNameInt )
-		# 	) 
-		# )
-
-		# create task and store it
-		taskStorageList.append( 
-			asyncio.create_task( 
-				coroutineWithEventButNotLock( event, taskNameInt ),
-				name='task_{}'.format( taskNameInt )
-			) 
-		)
-	
-	# simulate long running process
-	# and yield control to asyncio's eventloop
-	await asyncio.sleep( 3 )
+	# create and schedule the shorter long running task to run
+	shorterTask = asyncio.create_task( coroutineWithDynamicTimeOfLongRunningProcess( event, lock, 2 ) )
 
 	# now long running process was done
 	# trigger event to tell all tasks that something has happened
 	event.set()
 
 	# wait for all task to finish
-	asyncio.gather( *taskStorageList )
+	await asyncio.gather( longerTask, shorterTask )
 
 	# existing the program
 	print( 'Existing...' )
