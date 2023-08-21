@@ -8,7 +8,19 @@
 	In this script we're NOT going to use lock to simulate WRONG order of execution of our program
 
 	The desired behavior is:
-		
+		- the longer long running task is going to access the shared variable first
+		- the longer long running task is update shared variable to be 1
+		- then the shorter long running task is going to access the same shared variable 
+		- the shorter long running task is update shared variable to be 2
+	
+	BUT without the lock, the real behavior is:
+		- the longer long running task is access the shared variable 
+			BUT with the longer waiting time the shorter long running task can update the
+			shared variable first
+		- this is NOT the desired solution since our intention was 
+			- this longer long running task must update the shared variable to 1 first
+			- then the shorter long running task can update the shard variable to 2 
+
 '''
 
 import asyncio
