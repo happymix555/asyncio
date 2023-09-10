@@ -17,7 +17,6 @@ async def query_data(tableName, lastQueryId):
 	# Close the connection
 	conn.close()
 
-	# print( f'fetching data: {data}' )
 	return data
 
 async def subscribe(queue: asyncio.Queue, lastQueryId: int, tableName: str):
@@ -29,7 +28,6 @@ async def subscribe(queue: asyncio.Queue, lastQueryId: int, tableName: str):
 		data = await query_data(tableName, lastQueryId)
 		
 		if data is None:
-			# print ( "No more data to fetch." )
 			continue  # No more data to fetch, exit the loop
 		
 		lastQueryId = data[0]  # Update lastQueryId
